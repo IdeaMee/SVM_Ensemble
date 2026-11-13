@@ -1,7 +1,7 @@
 # Ensemble Method (Bagging + Boosting) ด้วย SVM บนชุดข้อมูล Iris
 
 เอกสารโจทย์ ขอบเขต และแผนงาน (เขียนก่อนเริ่มลงมือทำ)
-อัปเดตล่าสุด: 13 พ.ย. 2026 (ฉบับที่ 3: ใช้ SVM อย่างเดียว) | กำหนดทำ: **ให้เสร็จภายในวันนี้** | สถานะ: **ยังอยู่ในขั้นวางแผน ยังไม่เริ่มสร้างงานจริง**
+อัปเดตล่าสุด: 13 พ.ย. 2026 (ฉบับที่ 3: ใช้ SVM อย่างเดียว) | กำหนดทำ: **ให้เสร็จภายในวันนี้** | สถานะ: **สร้างโน้ตบุ๊กเสร็จและรันตรวจแล้ว (ยังไม่ได้ทำเรื่อง Git)**
 
 ---
 
@@ -218,7 +218,7 @@ flowchart LR
 1. **ตาราง accuracy** บนชุดทดสอบ 30 ตัว: SVM เดี่ยว / Bagging / Boosting (seed หลัก + ค่าเฉลี่ย ± SD จาก 20 seed)
 2. **Confusion matrix 3×3** ของ Bagging และ Boosting
 3. **กราฟ accuracy เทียบจำนวนโมเดล `T`** ของทั้งสองวิธี
-4. **กราฟเวลา Bagging:** serial เทียบกับ parallel พร้อม speedup (เวลาเรียน)
+4. **กราฟเวลา Bagging:** serial เทียบกับ parallel พร้อม speedup (เวลาเรียน) และ **กราฟเวลาทาย (inference time)** ของ SVM เดี่ยว / Bagging / Boosting (เพิ่มภายหลังตามที่ผู้ใช้ขอ)
 5. **ภาพ decision boundary** ของ SVM เดี่ยว / Bagging / Boosting (2 feature)
 6. **ของ Boosting:** กราฟ `err` / `alpha` ต่อรอบ และตัวอย่างว่าน้ำหนัก `w` ของตัวที่ทายผิดเพิ่มขึ้นจริง
 
@@ -281,7 +281,7 @@ SVM_Ensemble/
 ├── 09 Support Vector Machine.pptx     (สไลด์ประกอบ)
 ├── iris_train.csv                     (ข้อมูล 150 แถว จาก Hugging Face)
 ├── Ice.md                             (เอกสารนี้)
-└── SVM_Ensemble.ipynb                 (งานจริง ไฟล์เดียว)   <- ยังไม่สร้าง   
+└── SVM_Ensemble.ipynb                 (งานจริง ไฟล์เดียว)   
 ```
 
 ---
@@ -290,24 +290,49 @@ SVM_Ensemble/
 งานถือว่าเสร็จเมื่อครบทุกข้อ (ติ๊กตอนทำเสร็จ)
 
 **โค้ด**
-- [ ] อ่าน `iris_train.csv` ได้ 150 แถว แบ่ง 120 / 30 (80 / 20) แบบ stratified (พิมพ์จำนวนยืนยัน)
-- [ ] Bagging **เขียนเอง ไม่ใช้ library ทำ Bagging** และ **รันแบบ parallel จริง** (`joblib`)
-- [ ] ผล Bagging แบบ parallel เท่ากับ serial เมื่อใช้ seed เดียวกัน
-- [ ] Boosting **เขียนเอง ไม่ใช้ library ทำ Boosting** และรันแบบ sequential
-- [ ] ตัวย่อยเป็น SVM (RBF) จาก library ทั้งสองวิธี
-- [ ] จัดการกรณีหยุดของ Boosting (`err = 0`, `err ≥ 1 - 1/K`)
-- [ ] โน้ตบุ๊กเดียวที่รันตั้งแต่ต้นจนจบได้ ไม่ error บน Windows
-- [ ] มีสมการและคอมเมนต์สั้นๆ บอกว่าแต่ละส่วนทำอะไร อิงสไลด์ตามข้อ 2
+- [x] อ่าน `iris_train.csv` ได้ 150 แถว แบ่ง 120 / 30 (80 / 20) แบบ stratified (พิมพ์จำนวนยืนยัน)
+- [x] Bagging **เขียนเอง ไม่ใช้ library ทำ Bagging** และ **รันแบบ parallel จริง** (`joblib`)
+- [x] ผล Bagging แบบ parallel เท่ากับ serial เมื่อใช้ seed เดียวกัน
+- [x] Boosting **เขียนเอง ไม่ใช้ library ทำ Boosting** และรันแบบ sequential
+- [x] ตัวย่อยเป็น SVM (RBF) จาก library ทั้งสองวิธี
+- [x] จัดการกรณีหยุดของ Boosting (`err = 0`, `err ≥ 1 - 1/K`)
+- [x] โน้ตบุ๊กเดียวที่รันตั้งแต่ต้นจนจบได้ ไม่ error บน Windows
+- [x] มีสมการและคอมเมนต์สั้นๆ บอกว่าแต่ละส่วนทำอะไร อิงสไลด์ตามข้อ 2
 
 **ผลลัพธ์**
-- [ ] ตาราง accuracy: SVM เดี่ยว / Bagging / Boosting (seed หลัก + ค่าเฉลี่ย ± SD)
-- [ ] Confusion matrix 3×3 ของ Bagging และ Boosting
-- [ ] กราฟ accuracy เทียบจำนวนโมเดล
-- [ ] กราฟเวลา serial vs parallel พร้อม speedup และคำอธิบายตามจริง
-- [ ] ภาพ decision boundary (2 feature)
-- [ ] กราฟ `err` / `alpha` ของ Boosting
+- [x] ตาราง accuracy: SVM เดี่ยว / Bagging / Boosting (seed หลัก + ค่าเฉลี่ย ± SD)
+- [x] Confusion matrix 3×3 ของ Bagging และ Boosting
+- [x] กราฟ accuracy เทียบจำนวนโมเดล
+- [x] กราฟเวลา serial vs parallel พร้อม speedup และคำอธิบายตามจริง
+- [x] ภาพ decision boundary (2 feature)
+- [x] กราฟ `err` / `alpha` ของ Boosting
 
 **เอกสารและการส่ง**
-- [ ] `Ice.md` ตรงกับสิ่งที่ทำจริง
-- [ ] หมายเหตุในโน้ตบุ๊กว่า dataset นี้ sepal ถูกปัดเป็นจำนวนเต็ม
+- [x] `Ice.md` ตรงกับสิ่งที่ทำจริง
+- [x] หมายเหตุในโน้ตบุ๊กว่า dataset นี้ sepal ถูกปัดเป็นจำนวนเต็ม
+
+---
+
+## 11. การตัดสินใจและข้อที่ยังเปิดอยู่
+
+### ยืนยันแล้ว (13 พ.ย. 2026)
+1. **ใช้ SVM ตัวเดียว ไม่ผสม classifier**
+2. **SVM ใช้ `SVC` ของ library** ไม่เขียนตัวแก้เอง ใช้สมการสไลด์เพื่ออธิบายและตรวจสอบ
+3. **Boosting ใช้ `sample_weight` ของ SVM** (ไม่ใช้การสุ่มตามน้ำหนัก)
+4. **SVM ทุกตัว RBF เหมือนกัน** ไม่สลับ kernel
+5. **แบ่งข้อมูล 80 / 20** (เรียน 120 / ทดสอบ 30 แบบ stratified) ผู้ใช้ยืนยันแล้ว
+6. **Parallel ใช้ `joblib`** (โน้ตบุ๊กไฟล์เดียว `SVM_Ensemble.ipynb`)
+7. ยังไม่ทำประวัติ commit จำลอง (ยังไม่มีคำสั่งเริ่ม) ถ้าจะทำ ให้กำหนดไฟล์และสมาชิกในขั้นวางแผนถัดไป
+
+### ความเข้าใจโจทย์ที่ยืนยันกับผู้ใช้
+- Ensemble 2 แบบ: **Bagging = parallel computing**, **Boosting = sequential**
+- **Bagging/Boosting ต้องเขียนเอง ห้ามใช้ library สำเร็จรูป** (เขียนด้วย numpy + `joblib` ช่วยกระจายงานเท่านั้น)
+- **Classifier ตัวย่อยใช้ library ได้** (scikit-learn)
+- โจทย์คือ **จำแนกประเภท (classification)** ดอกไอริส 3 ชนิด (ถ้าใช้ k-NN ต้องเป็น k-NN classifier ไม่ใช่ regressor)
+
+### ยังเปิดอยู่
+- ไม่มี (พร้อมเริ่มสร้างเมื่อผู้ใช้สั่ง)
+
+### ปิดแล้ว
+- **เรื่องอัปโหลด:** ผู้ใช้ระบุว่าไม่มีปัญหา ไม่ต้องสนใจ
 
